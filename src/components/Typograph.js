@@ -1,19 +1,19 @@
-import {View, Text} from 'react-native'
-import {fontSize} from '../constants/fontSize'
+import { View, Text } from 'react-native'
+import { fontSize } from '../constants/fontSize'
 
 export const Typograph = ({
     children,
     color = "black",
     size = fontSize.s16,
-    style
+    style,
 }) => {
     return (
-            <Text style={{
-                color,
-                fontSize:size,
-                ...style
-            }}>
-                {children}
-            </Text>
-    )   
+        <Text style={{
+            color,
+            fontSize: size,
+            ...style
+        }}>
+            {children}
+        </Text>
+    )
 }

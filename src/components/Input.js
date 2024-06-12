@@ -1,11 +1,39 @@
-import {View, TextInput} from 'react-native'
+import { View, TextInput, TouchableOpacity, Text } from 'react-native'
 import { colors } from '../constants/colors'
 import { spacing } from '../constants/spacing'
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useCallback, useState } from 'react';
+import Entypo from '@expo/vector-icons/Entypo';
+
 
 const INPUT_VARIANTS = {
-    circled:"circled",
-    search:"search"
+    circled: "circled",
+    search: "search"
+}
+
+export const PasswordButton = ({
+    toggle,
+    showPassword
+}) => {
+    return (
+        <TouchableOpacity
+            onPress={toggle}
+            style={{
+                zIndex: 999,
+                right: 15,
+                bottom: 10,
+                position: "absolute"
+            }}
+        >
+            {
+                showPassword ? (
+                    <Entypo name="eye-with-line" size={24} color="black" />
+                ) : (
+                    <AntDesign name="eye" size={24} color="black" />
+                )
+            }
+        </TouchableOpacity>
+    )
 }
 
 export const Input = ({
@@ -13,82 +41,110 @@ export const Input = ({
     width = "100%",
     variant = "circled",
     value,
-    onChange,
+    onChangeText,
+    onBlur,
     trailing,
-    placeholder = "Digite aqui"
+    placeholder = "Digite aqui",
+    password,
+    keyboardType,
+    errorText
 }) => {
-    if(variant == INPUT_VARIANTS.circled){
+    const [showPassword, setShowPassword] = useState(!password);
+
+    const togglePassword = useCallback(() => {
+        setShowPassword(prev => !prev)
+    }, [showPassword])
+
+    if (variant == INPUT_VARIANTS.circled) {
         return (
-            <View 
+            <View
                 style={{
                     height,
                     width,
-                    paddingHorizontal:spacing.s16,
-                    paddingLeft:spacing.s42 + 28,
+                    paddingHorizontal: spacing.s16,
+                    paddingLeft: spacing.s42 + 28,
                     paddingVertical: spacing.s12,
-                    borderRadius:999,
-                    borderWidth:1,
-                    position:"relative"
+                    borderRadius: 999,
+                    borderWidth: 1,
+                    position: "relative"
                 }}
             >
-
                 {
                     trailing && (
                         <View style={{
-                            position:"absolute",
-                            left:-12,
-                            bottom:-12,
-                            width:70,
-                            height:70,
-                            borderRadius:999,
-                            borderWidth:1,
-                            justifyContent:'center',
-                            alignItems:'center',
-                            backgroundColor:'white'
+                            position: "absolute",
+                            left: -12,
+                            bottom: -12,
+                            width: 70,
+                            height: 70,
+                            borderRadius: 999,
+                            borderWidth: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'white'
                         }}>
                             {trailing}
                         </View>
                     )
                 }
-              
 
-                <TextInput 
+                <TextInput
                     value={value}
+                    keyboardType={keyboardType}
                     placeholder={placeholder}
-                    onChangeText={text => onChange(text)}
+                    secureTextEntry={!showPassword}
+                    onChangeText={onChangeText}
+                    onBlur={onBlur}
                     style={{
-                        height:"100%",
-                        width:"100%",
+                        height: "100%",
+                        width: "100%",
                     }}
                 />
+
+                {
+                    !!errorText && (
+                        <Text
+                            style={{
+                                position: "absolute",
+                                bottom: -20,
+                                right: 10,
+                                color: 'red'
+                            }}
+                        >{errorText}</Text>
+                    )
+                }
+
+                {password && <PasswordButton showPassword={showPassword} toggle={togglePassword} />}
             </View>
         )
     } else if (variant == INPUT_VARIANTS.search) {
         return (
-            <View 
+            <View
                 style={{
                     height,
                     width,
-                    paddingHorizontal:spacing.s16,
+                    paddingHorizontal: spacing.s16,
                     paddingVertical: spacing.s12,
-                    backgroundColor:colors.gray,
-                    position:"relative"
+                    backgroundColor: colors.gray,
+                    position: "relative"
                 }}
             >
-                <TextInput 
+                <TextInput
                     placeholder={placeholder}
                     value={value}
-                    onChangeText={text => onChange(text)}
+                    onChangeText={onChangeText}
+                    onBlur={onBlur}
+                    keyboardType={keyboardType}
                     style={{
-                        height:"100%",
-                        width:"100%",
+                        height: "100%",
+                        width: "100%",
                     }}
                 />
 
                 <View style={{
-                    position:"absolute",
-                    right:15,
-                    bottom:14
+                    position: "absolute",
+                    right: 15,
+                    bottom: 14
                 }}>
                     <AntDesign name="search1" size={24} color={colors.blue} />
                 </View>

@@ -10,12 +10,12 @@ export const Logo = ({
 }) => {
     return (
         <View style={{
-                width,
-                height
-            } }>
+            width,
+            height
+        }}>
             <Image style={{
-                width:width,
-                height:height
+                width: width,
+                height: height
             }} source={LogoImage}></Image>
         </View>
     )

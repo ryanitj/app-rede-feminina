@@ -1,4 +1,4 @@
-import {View} from 'react-native'
+import { View } from 'react-native'
 import { colors } from '../constants/colors'
 
 export const Container = ({
@@ -9,10 +9,10 @@ export const Container = ({
 }) => {
     return (
         <View style={{
-            flex:1,
+            flex: 1,
             justifyContent: justify,
-            alignItems:align,
-            backgroundColor:backgroundColor
+            alignItems: align,
+            backgroundColor: backgroundColor
         }}>
             {children}
         </View>
