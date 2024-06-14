@@ -6,57 +6,70 @@ import { ScrollView } from 'react-native'
 import { spacing } from '../constants/spacing'
 import { Button } from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
-import { useState } from 'react'
+import LogoImage from '../assets/images/logo.png'
 
 const products = [
     {
         title:"Produto 1",
         description:"Descricao teste produto",
-        image:"",
+        image:LogoImage,
+        price:10.35,
     },
     {
         title:"Produto 1",
         description:"Descricao teste produto",
-        image:"",
+        image:LogoImage,
+        price:10.0,
     },
     {
         title:"Produto 1",
         description:"Descricao teste produto",
-        image:"",
+        image:LogoImage,
+        price:10.0,
     },
     {
         title:"Produto 1",
         description:"Descricao teste produto",
-        image:"",
+        image:LogoImage,
+        price:10.0,
     },
     {
         title:"Produto 1",
         description:"Descricao teste produto",
-        image:"",
+        image:LogoImage,
+        price:10.0,
     },
     {
         title:"Produto 1",
         description:"Descricao teste produto",
-        image:"",
+        image:LogoImage,
+        price:10.0,
     },
     {
         title:"Produto 1",
         description:"Descricao teste produto",
-        image:"",
+        image:LogoImage,
+        price:10.0,
     },
     {
         title:"Produto 1",
         description:"Descricao teste produto",
-        image:"",
+        image:LogoImage,
+        price:10.0,
     },
 ]
 
 export const Settings = () => {
-    const [image, setImage] = useState(null);
     const navigation = useNavigation()
 
     const navigateAddProduct = () => {
         navigation.navigate("ProductCreate")
+    }
+
+    const navigateShowProduct = (item) => {
+        navigation.navigate("ProductShow", {
+            data:item
+        })
     }
 
     return (
@@ -79,6 +92,7 @@ export const Settings = () => {
                     {
                         products.length >= 0 && products.map(item => (
                             <Card
+                                onPress={() => navigateShowProduct(item)}
                                 style={{
                                     marginTop:spacing.s12 - 2, 
                                     shadowColor: "#000",

@@ -1,4 +1,4 @@
-import { Image, View } from "react-native"
+import { Image, TouchableOpacity, View } from "react-native"
 import { Typograph } from "./Typograph"
 import LogoImage from '../assets/images/logo.png'
 import { fontSize } from "../constants/fontSize"
@@ -10,11 +10,14 @@ export const Card = ({
     title, 
     description, 
     style,
+    onPress,
     height
 }) => {
     return (
-        <View style={{ backgroundColor:"white", ...style}}>
-            <Image source={LogoImage} style={{
+        <TouchableOpacity 
+        onPress={onPress} 
+        style={{ backgroundColor:"white", ...style}}>
+            <Image source={image || LogoImage} style={{
                 width: "100%",
                 height: height
             }}/>
@@ -27,6 +30,6 @@ export const Card = ({
                 <Typograph size={fontSize.s12}>{title}</Typograph>
                 <Typograph size={fontSize.s12}>{description}</Typograph>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }

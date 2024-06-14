@@ -1,4 +1,4 @@
-import { View, TextInput, TouchableOpacity, Text } from 'react-native'
+import { View, TextInput, TouchableOpacity, Text, Animated } from 'react-native'
 import { colors } from '../constants/colors'
 import { spacing } from '../constants/spacing'
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -145,14 +145,16 @@ export const Input = ({
 
                 {
                     !!errorText && (
-                        <Text
+                        <Animated.Text
                             style={{
                                 position: "absolute",
                                 bottom: -20,
                                 right: 10,
                                 color: 'red'
                             }}
-                        >{errorText}</Text>
+                        >
+                            {errorText}
+                        </Animated.Text>
                     )
                 }
 

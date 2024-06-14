@@ -1,13 +1,12 @@
 import 'react-native-gesture-handler';
-import { Stack, Tabs } from './src/navigation/routes';
-import auth from '@firebase/auth';
-import { UserDataProvider } from './src/context/user';
-import Toast, { BaseToast } from 'react-native-toast-message';
+import Toast from 'react-native-toast-message';
 import { Montserrat_200ExtraLight, Montserrat_400Regular, Montserrat_600SemiBold, useFonts } from '@expo-google-fonts/montserrat';
 import { toastConfig } from './src/config/toast';
+import { UserDataProvider } from './src/context/user';
 import { LoadingProvider } from './src/context/loading';
-import Router from './src/navigation/navigator';
 import { AuthProvider } from './src/context/auth';
+import Router from './src/navigation/navigator';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -21,13 +20,15 @@ export default function App() {
   }
 
   return (
-    <AuthProvider>
-      <UserDataProvider>
-        <LoadingProvider>
-          <Router />
-          <Toast config={toastConfig} />
-        </LoadingProvider>
-      </UserDataProvider>
-    </AuthProvider>
+    <NavigationContainer>
+      <AuthProvider>
+        <UserDataProvider>
+          <LoadingProvider>
+            <Router />
+            <Toast config={toastConfig} />
+          </LoadingProvider>
+        </UserDataProvider>
+      </AuthProvider>
+    </NavigationContainer>
   );
 }

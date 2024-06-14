@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { createContext, useContext, useState } from 'react';
 import Toast, { BaseToast } from 'react-native-toast-message';
 
@@ -7,7 +8,9 @@ const ToastContext = createContext({
 });
 
 const ToastProvider = ({ children }) => {
-    const showToast = (message = "Ocorreu tudo certo!") => {
+    const navigation = useNavigation()
+
+    const showSuccessToast = (message = "Ocorreu tudo certo!", action = navigation.goBack) => {
         Toast.show({
             type: 'success',
             text1: 'Sucesso!',
@@ -15,10 +18,10 @@ const ToastProvider = ({ children }) => {
             visibilityTime: 2000,
         },);
 
-        navigation.goBack();
+        navigation.goBack()
     }
 
-    const showToastError = (message = "Ocorreu um erro inesperado..") => {
+    const showErrorToast = (message = "Ocorreu um erro inesperado..") => {
         Toast.show({
             type: 'error',
             text1: 'Erro!',
@@ -28,8 +31,8 @@ const ToastProvider = ({ children }) => {
     }
 
     const value = {
-        showSuccessToast: showToast,
-        showErrorToast: showToastError,
+        showSuccessToast,
+        showErrorToast,
     };
 
     return (

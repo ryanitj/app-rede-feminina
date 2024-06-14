@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity, View } from "react-native"
+import { Image, View } from "react-native"
 import { Button } from "../components/Button"
 import { Content } from "../components/Content"
 import { spacing } from "../constants/spacing"
@@ -7,12 +7,28 @@ import { Fontisto } from '@expo/vector-icons';
 import { Typograph } from "../components/Typograph"
 import { INPUT_VARIANTS, Input } from "../components/Input"
 import { Box } from "../components/Box"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { ImagePicker } from "../components/ImagePicker"
+import { Row } from "../components/Row"
+import { formatCurrency } from "../util/currencyFormat"
+import { PRODUCT_USE_CASES, pickUseCase } from "../useCases/products/show"
+import { useLoading } from "../context/loading"
+import { useToast } from "../context/toast"
+import { useNavigation } from "@react-navigation/native"
 
-export const ProductCreate = () => {
-    const [image, setImage] = useState(null);
+export const ProductShow = ({route}) => {
+    const { data } = route.params
+
+    const navigation = useNavigation()
+    const loadingContext = useLoading()
+    const toastContext = useToast()
+
+    const [image, setImage] = useState(data["image"]);
+
+    const imageSource = useMemo(() => {
+        return image["uri"] ? {uri:image} : image;
+    }, [image]) 
 
     const {
         control,
@@ -20,16 +36,29 @@ export const ProductCreate = () => {
         formState: { errors },
     } = useForm({
         defaultValues: {
-            name: "",
-            price: "",
+            name: data["title"],
+            description: data["description"],
+            price: formatCurrency(data["price"]),
         },
     })
 
-    const submit = () => {
+    const actionProduct = async (useCase) => {
+        loadingContext.toggle()
         try {
-            console.log("dsad")
+            const action = pickUseCase(useCase, {"teste":"teste"})
+            const response = await action()
+            if(!response["success"]){
+                toastContext.showErrorToast()
+                return; 
+            }
+            toastContext.showSuccessToast(undefined, ()=>{
+                navigation.goBack();
+            })
         } catch (error) {
-            
+            console.log(error)
+            toastContext.showErrorToast()
+        } finally {
+            loadingContext.toggle()
         }
     }
 
@@ -49,11 +78,7 @@ export const ProductCreate = () => {
                 position:"relative"
             }}>
                 {
-                    image ? (
-                        <>
-                            <Image style={{position:"absolute", width:196, height:196}} source={{uri:image}}/>
-                        </>
-                    ) : (
+                    image ? (<Image style={{position:"absolute", width:196, height:196}} source={imageSource}/>) : (
                         <>
                             <Fontisto name="picture" size={36} color={colors["primary"]} style={{marginBottom:spacing.s12}} />
                             <Typograph color={colors["primary"]} style={{textAlign:"center"}}>Adicione a foto aqui</Typograph>
@@ -61,7 +86,6 @@ export const ProductCreate = () => {
                     )
                 }
             </ImagePicker>
-
             <Box 
             fullW 
             style={{
@@ -84,6 +108,22 @@ export const ProductCreate = () => {
                         )}
                         name="name"
                     />
+                       <Controller
+                        control={control}
+                        rules={{
+                            required: true
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <Input 
+                            onChangeText={onChange}
+                            onBlur={onBlur}
+                            value={value}
+                            errorText={errors.description ? "Campo obrigatório" : ""}
+                            placeholder="Descrição do Produto" 
+                            variant={INPUT_VARIANTS.default}/>
+                        )}
+                        name="description"
+                    />
                     <Controller
                         control={control}
                         rules={{
@@ -101,9 +141,28 @@ export const ProductCreate = () => {
                         name="price"
                     />
             </Box>
-            
+
             <View style={{flex:1}}></View>
-            <Button onPress={handleSubmit(submit)} text={"Adicionar"}/>
+            <Row>
+                <Button 
+                    width="33%" 
+                    text={"Excluir"} 
+                    backgroundColor={colors["red"]}
+                    onPress={() => actionProduct(PRODUCT_USE_CASES.exclude)}
+                />
+                <Button 
+                    width="33%" 
+                    text={"Inativar"} 
+                    backgroundColor={colors["primary"]}
+                    onPress={() => actionProduct(PRODUCT_USE_CASES.inativate)}
+                />
+                <Button 
+                    width="33%" 
+                    text={"Salvar"} 
+                    backgroundColor={colors["blue"]}
+                    onPress={() => handleSubmit(actionProduct(PRODUCT_USE_CASES.save))}
+                />
+            </Row>
         </Content>
     )
 }

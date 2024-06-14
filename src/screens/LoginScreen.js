@@ -13,9 +13,10 @@ import { fontSize } from '../constants/fontSize'
 import { Controller, useForm } from 'react-hook-form'
 import { useToast } from '../context/toast'
 import { useLoading } from '../context/loading'
-import { login } from '../services/auth'
+import { AuthService, login } from '../services/auth'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
+import { LOGIN_USE_CASES, loginUseCase } from '../useCases/auth/login'
 
 export const Login = () => {
     const navigation = useNavigation();
@@ -37,15 +38,22 @@ export const Login = () => {
         navigation.navigate("Register")
     }
 
-    const handleRegister = async (data) => {
+    const login = async (data) => {
         toggle()
-        const response = await login(data["email"], data["password"]);
-        toggle()
-        if (!response["success"]) {
+        try {
+            const action = loginUseCase(LOGIN_USE_CASES.login, data)
+            const response = await action()
+       
+            if (!response["success"]) {
+                showErrorToast()
+                return;
+            }
+            showSuccessToast()
+        } catch (error) {
             showErrorToast()
-            return;
+        } finally {
+            toggle()
         }
-        showSuccessToast()
     }
 
     return (
@@ -109,7 +117,7 @@ export const Login = () => {
                         <Typograph size={fontSize.s16 - 2} color={colors.blue}>Clique aqui!</Typograph>
                     </Row>
 
-                    <Button onPress={handleSubmit(handleRegister)} text={"Logar"} width={140} alignSelf={'center'} />
+                    <Button onPress={handleSubmit(login)} text={"Logar"} width={140} alignSelf={'center'} />
                 </View>
             </View>
             <TouchableOpacity

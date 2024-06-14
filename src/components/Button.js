@@ -7,7 +7,8 @@ export const Button = ({
     text,
     onPress,
     width = "100%",
-    alignSelf
+    alignSelf,
+    backgroundColor
 }) => {
     return (
         <TouchableOpacity
@@ -15,7 +16,7 @@ export const Button = ({
             style={{
                 paddingHorizontal: spacing.s24,
                 paddingVertical: spacing.s12,
-                backgroundColor: colors.primary,
+                backgroundColor: backgroundColor || colors.primary,
                 borderRadius: 999,
                 width: width,
                 alignSelf: alignSelf
