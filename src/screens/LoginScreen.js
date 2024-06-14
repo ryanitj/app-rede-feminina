@@ -4,9 +4,7 @@ import { Container } from "../components/Container"
 import { Typograph } from "../components/Typograph"
 import { Row } from "../components/Row"
 import { colors } from "../constants/colors"
-import { Input } from "../components/Input"
-import Ionicons from '@expo/vector-icons/Ionicons';
-import Entypo from '@expo/vector-icons/Entypo';
+import { INPUT_VARIANTS, Input } from "../components/Input"
 import { spacing } from '../constants/spacing'
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -14,9 +12,10 @@ import { Button } from '../components/Button'
 import { fontSize } from '../constants/fontSize'
 import { Controller, useForm } from 'react-hook-form'
 import { useToast } from '../context/toast'
-import { useState } from 'react'
 import { useLoading } from '../context/loading'
 import { login } from '../services/auth'
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Entypo from '@expo/vector-icons/Entypo';
 
 export const Login = () => {
     const navigation = useNavigation();
@@ -74,6 +73,7 @@ export const Login = () => {
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <Input
+                            variant={INPUT_VARIANTS.circled}
                             onChangeText={onChange}
                             onBlur={onBlur}
                             value={value}
@@ -91,6 +91,7 @@ export const Login = () => {
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <Input
+                            variant={INPUT_VARIANTS.circled}
                             trailing={<Entypo name="lock" size={24} color="black" />}
                             onChangeText={onChange}
                             onBlur={onBlur}
@@ -101,7 +102,6 @@ export const Login = () => {
                     )}
                     name="password"
                 />
-
 
                 <View>
                     <Row style={{ marginBottom: spacing.s16 }}>

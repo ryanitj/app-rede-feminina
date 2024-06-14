@@ -1,7 +1,7 @@
-import { TouchableOpacity } from "react-native-gesture-handler"
 import { Typograph } from "./Typograph"
 import { spacing } from "../constants/spacing"
 import { colors } from "../constants/colors"
+import { TouchableOpacity } from "react-native"
 
 export const Button = ({
     text,

@@ -5,10 +5,10 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { useCallback, useState } from 'react';
 import Entypo from '@expo/vector-icons/Entypo';
 
-
-const INPUT_VARIANTS = {
+export const INPUT_VARIANTS = {
     circled: "circled",
-    search: "search"
+    search: "search",
+    default: "default",
 }
 
 export const PasswordButton = ({
@@ -39,7 +39,7 @@ export const PasswordButton = ({
 export const Input = ({
     height = 50,
     width = "100%",
-    variant = "circled",
+    variant = "default",
     value,
     onChangeText,
     onBlur,
@@ -55,7 +55,49 @@ export const Input = ({
         setShowPassword(prev => !prev)
     }, [showPassword])
 
-    if (variant == INPUT_VARIANTS.circled) {
+    if(variant == INPUT_VARIANTS.default) {
+        return (
+            <View
+                style={{
+                    height,
+                    width,
+                    paddingHorizontal: spacing.s16,
+                    paddingVertical: spacing.s12,
+                    backgroundColor: "transparent",
+                    borderWidth:1,
+                    borderColor:colors["gray"],
+                    position: "relative",
+                    marginBottom:errorText ? 16 : 0
+                }}
+            >
+                <TextInput
+                    placeholder={placeholder}
+                    value={value}
+                    onChangeText={onChangeText}
+                    onBlur={onBlur}
+                    keyboardType={keyboardType}
+                    style={{
+                        height: "100%",
+                        width: "100%",
+                    }}
+                />
+
+
+                {
+                    !!errorText && (
+                        <Text
+                            style={{
+                                position: "absolute",
+                                bottom: -20,
+                                right: 10,
+                                color: 'red'
+                            }}
+                        >{errorText}</Text>
+                    )
+                }
+            </View>
+        )
+    } else if (variant == INPUT_VARIANTS.circled) {
         return (
             <View
                 style={{

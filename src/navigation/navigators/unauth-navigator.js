@@ -1,10 +1,11 @@
-import { createStackNavigator } from "@react-navigation/stack";
+import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import { ToastProvider } from "../../context/toast";
 import { NavigationContainer } from "@react-navigation/native";
 import { UNAUTH_ROUTES } from "../routes";
 
 const optionsScreen = {
-    headerShown: false
+    headerShown: false,
+    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 }
 
 const Stack = createStackNavigator();

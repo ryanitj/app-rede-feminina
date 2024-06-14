@@ -12,7 +12,6 @@ const AuthProvider = ({ children }) => {
     const [logged, setLogged] = useState(false);
 
     const signOut = async () => {
-        console.log("djsa")
         await auth.signOut()
         setLogged(false)
         setIsAdmin(false)

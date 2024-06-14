@@ -13,8 +13,8 @@ export const LogoutButton = () => {
     return (
         <TouchableOpacity
             onPress={request}
-            style={{ backgroundColor: colors["primaryDarker"], width: 46, height: 46, borderRadius: 999, alignItems: 'center', justifyContent: 'center', marginRight: 12 }}>
-            <Entypo name="log-out" size={16} color="white" />
+            style={{ backgroundColor: colors["primaryDarker"], width: 36, height: 36, borderRadius: 999, alignItems: 'center', justifyContent: 'center', marginRight: 12 }}>
+            <Entypo name="log-out" size={14} color="white" />
         </TouchableOpacity>
     )
 }

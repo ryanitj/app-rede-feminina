@@ -64,9 +64,6 @@ export const Register = () => {
                     <Typograph style={{ marginBottom: spacing.s8 }}>Bem vindo (a) de volta!</Typograph>
                     <Typograph size={fontSize.s16 - 2}>Faça o cadastro</Typograph>
                 </View>
-
-
-
                 <Controller
                     control={control}
                     rules={{
@@ -124,7 +121,7 @@ export const Register = () => {
             </View>
 
             <TouchableOpacity
-                onPress={goBack}>
+                onPress={() => navigation.goBack()}>
                 <Row>
                     <Typograph>Já possui cadastro?</Typograph>
                     <Typograph color={colors.blue}>Faça o login!</Typograph>
