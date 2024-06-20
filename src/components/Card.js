@@ -13,11 +13,14 @@ export const Card = ({
     onPress,
     height
 }) => {
+
+    console.log('image')
+    console.log(image)
     return (
         <TouchableOpacity 
         onPress={onPress} 
         style={{ backgroundColor:"white", ...style}}>
-            <Image source={image || LogoImage} style={{
+            <Image source={image ? {uri:image}  : LogoImage} style={{
                 width: "100%",
                 height: height
             }}/>

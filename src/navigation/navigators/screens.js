@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AUTH_ROUTES, UNAUTH_ROUTES } from "../routes"
 import { createStackNavigator } from "@react-navigation/stack";
+import { unathOptionsScreen } from "./options";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

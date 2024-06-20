@@ -16,18 +16,23 @@ import { PRODUCT_USE_CASES, pickUseCase } from "../useCases/products/show"
 import { useLoading } from "../context/loading"
 import { useToast } from "../context/toast"
 import { useNavigation } from "@react-navigation/native"
+import { updateDoc } from "firebase/firestore"
+import { updateProduct } from "../services/product"
 
 export const ProductShow = ({route}) => {
     const { data } = route.params
-
+    console.log('data')
+    console.log(data)
     const navigation = useNavigation()
     const loadingContext = useLoading()
     const toastContext = useToast()
 
-    const [image, setImage] = useState(data["image"]);
+    const [image, setImage] = useState(data["image"] || {});
 
     const imageSource = useMemo(() => {
-        return image["uri"] ? {uri:image} : image;
+        console.log('image ---------------')
+        console.log(image)
+        return {uri:image};
     }, [image]) 
 
     const {
@@ -37,30 +42,33 @@ export const ProductShow = ({route}) => {
     } = useForm({
         defaultValues: {
             name: data["title"],
-            description: data["description"],
-            price: formatCurrency(data["price"]),
+            price: data["price"] || "",
+            id: data["id"] || "",
         },
     })
 
-    const actionProduct = async (useCase) => {
-        loadingContext.toggle()
+    const submit = async (newData) => {
         try {
-            const action = pickUseCase(useCase, {"teste":"teste"})
-            const response = await action()
+            const payload = {
+                id:data["id"],
+                nome:newData["name"],
+                valor:newData["price"],
+                img:image
+            }
+
+            const response = await updateProduct({...payload})
             if(!response["success"]){
                 toastContext.showErrorToast()
-                return; 
+                return;
             }
-            toastContext.showSuccessToast(undefined, ()=>{
-                navigation.goBack();
-            })
+
+            toastContext.showSuccessToast()
         } catch (error) {
             console.log(error)
             toastContext.showErrorToast()
-        } finally {
-            loadingContext.toggle()
         }
-    }
+    } 
+
 
     return (
         <Content>
@@ -108,22 +116,7 @@ export const ProductShow = ({route}) => {
                         )}
                         name="name"
                     />
-                       <Controller
-                        control={control}
-                        rules={{
-                            required: true
-                        }}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <Input 
-                            onChangeText={onChange}
-                            onBlur={onBlur}
-                            value={value}
-                            errorText={errors.description ? "Campo obrigatório" : ""}
-                            placeholder="Descrição do Produto" 
-                            variant={INPUT_VARIANTS.default}/>
-                        )}
-                        name="description"
-                    />
+                     
                     <Controller
                         control={control}
                         rules={{
@@ -148,19 +141,19 @@ export const ProductShow = ({route}) => {
                     width="33%" 
                     text={"Excluir"} 
                     backgroundColor={colors["red"]}
-                    onPress={() => actionProduct(PRODUCT_USE_CASES.exclude)}
+                    onPress={() => updateProduct()}
                 />
                 <Button 
                     width="33%" 
                     text={"Inativar"} 
                     backgroundColor={colors["primary"]}
-                    onPress={() => actionProduct(PRODUCT_USE_CASES.inativate)}
+                    onPress={() => updateProduct()}
                 />
                 <Button 
                     width="33%" 
                     text={"Salvar"} 
                     backgroundColor={colors["blue"]}
-                    onPress={() => handleSubmit(actionProduct(PRODUCT_USE_CASES.save))}
+                    onPress={handleSubmit(submit)}
                 />
             </Row>
         </Content>

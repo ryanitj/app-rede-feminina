@@ -3,16 +3,19 @@ import { Button } from "../components/Button"
 import { Content } from "../components/Content"
 import { spacing } from "../constants/spacing"
 import { colors } from "../constants/colors"
-import { Fontisto } from '@expo/vector-icons';
+import { createIconSetFromFontello, Fontisto } from '@expo/vector-icons';
 import { Typograph } from "../components/Typograph"
 import { INPUT_VARIANTS, Input } from "../components/Input"
 import { Box } from "../components/Box"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { ImagePicker } from "../components/ImagePicker"
+import { insertProduct } from "../services/product"
+import { useToast } from "../context/toast"
 
 export const ProductCreate = () => {
     const [image, setImage] = useState(null);
+    const toast = useToast()
 
     const {
         control,
@@ -25,9 +28,25 @@ export const ProductCreate = () => {
         },
     })
 
-    const submit = () => {
+    const submit = async (data) => {
         try {
-            console.log("dsad")
+            
+            console.log('payload')
+            const payload = {
+                nome:data["name"],
+                valor:data["price"],
+                img:image
+            }
+            console.log('payload 2ss')
+            console.log(payload)
+            const response = await insertProduct(payload);
+
+            if(!response["success"]){
+                toast.showErrorToast()
+                return;
+            }
+
+            toast.showSuccessToast()
         } catch (error) {
             
         }
@@ -36,7 +55,9 @@ export const ProductCreate = () => {
     return (
         <Content>
             <ImagePicker
-            onPickImage={(file) => setImage(file)}
+            onPickImage={(file) => {
+                setImage(file)
+            }}
             styles={{
                 width:200,
                 height:200,

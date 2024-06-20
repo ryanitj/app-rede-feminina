@@ -8,9 +8,9 @@ export const storeDocument = async (collection, data) => {
         const response = await addDoc(docRef, {
             ...data,
         })
-        return responseUtil(true, response, "Sucesso!");
+        return responseUtil(true, "Sucesso!", response);
     } catch (error) {
-        return responseUtil(false, error, "Ocorreu um erro ao cadastrar usuário!");
+        return responseUtil(false, "Ocorreu um erro ao cadastrar usuário!", error);
     }
 }
 

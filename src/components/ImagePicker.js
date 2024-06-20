@@ -9,7 +9,10 @@ export const ImagePicker = ({children, onPickImage, styles}) => {
           aspect: [4, 3],
           quality: 1,
         })
-    
+        
+        console.log('result')
+        console.log(result.assets)
+        console.log(result)
         onPickImage(result.assets[0].uri)
     };
 
