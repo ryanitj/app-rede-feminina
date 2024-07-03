@@ -9,13 +9,22 @@ import { fontWeight } from "../constants/fontWeight"
 
 const CONTACTS = [
     {
-        text:"Telefone: (99) 9 9999-9999"
+        text: "Telefone: (47) 3368-4833"
     },
     {
-        text:"E-mail: xxxxx@gmail.com"
+        text: "E-mail: rfccitapema@outlook.com"
     },
     {
-        text:"Site: https://www.redefemininaitapema.com.br/"
+        text: "Site: https://www.redefemininaitapema.com.br/"
+    },
+]
+
+const ADDRESS_TEXT = [
+    {
+        text: "Rua 240, 412 - Meia Praia,"
+    },
+    {
+        text: "Itapema - SC, 88220-000"
     },
 ]
 
@@ -24,26 +33,27 @@ export const About = () => {
         <ScrollView>
             <Content>
                 <Logo height={160} width={160}></Logo>
-                <Typograph size={fontSize.s18} weight={fontWeight[700]} style={{marginBottom:spacing.s12}}>Rede Feminina Contra o Cancer</Typograph>
+                <Typograph size={fontSize.s18} weight={fontWeight[700]} style={{ marginBottom: spacing.s12 }}>Rede Feminina Contra o Cancer</Typograph>
 
-                <Box fullW style={{marginBottom:spacing.s12}}>
-                    <Typograph size={fontSize.s18} style={{marginBottom:spacing.s12 - 8}}>Sobre Nós</Typograph>
+                <Box fullW style={{ marginBottom: spacing.s12 }}>
+                    <Typograph size={fontSize.s18} style={{ marginBottom: spacing.s12 - 8 }}>Sobre Nós</Typograph>
+                    <Typograph style={{ marginBottom: spacing.s12 }}>
+                        A RFCC itapema é uma instituição não governamental, sem fins lucrativos, cujo objetivo é prevenir o câncer de colo de útero, realizar diagnóstico precoce do câncer de mama e apoiar pacientes mastectomizadas.
+                    </Typograph>
+
                     <Typograph>
-                        Lorem Ipsum is simply dummy text of the printing 
-                        and typesetting industry. Lorem Ipsum has been 
-                        the industry's standard dummy text ever since the 
-                        1500s, when an unknown printer took a galley of 
-                        type and scrambled it to make a type specimen 
-                        book. It has survived not only five centuries, but 
-                        also the leap into electronic typesetting, remaining 
-                        essentially unchanged. It was popularised in the 
-                        1960s with the release of Letraset sheets containing.
+                        A Rede Feminina de itapema teve início em 07 de agosto de 2001. Elegeu a primeira diretoria com as senhoras: Dra. Gladis Deisvaldi Pitol, (in memoriam) Cleia Rocha Haenachen, Eliane Lobato, juntamente com algumas pessoas da cidade. com muita dedicação e comprometimento no intuito de prestar serviço em prol da saúde e bem estar das mulheres itapemenses, Iniciou seus trabalhos junto ao posto de saúde básica do bairro, após algum tempo teve início  a construção do prédio para sede própria, a partir de 30 de novembro de 2010 foi inaugurada sua sede  e desde então vem contando, ao longo dos anos, com o trabalho dedicado de inúmeras voluntárias que assumem um compromisso pela vida na busca incessante pela saúde e valorização da mulher.
                     </Typograph>
                 </Box>
 
-                <Box fullW style={{marginBottom:spacing.s12}}>
-                    <Typograph size={fontSize.s18} style={{marginBottom:spacing.s12 - 8}}>Contato</Typograph>
+                <Box fullW style={{ marginBottom: spacing.s12 }}>
+                    <Typograph size={fontSize.s18} style={{ marginBottom: spacing.s12 - 8 }}>Contato</Typograph>
                     {CONTACTS.map(item => <Typograph>{item["text"]}</Typograph>)}
+                </Box>
+
+                <Box fullW style={{ marginBottom: spacing.s12 }}>
+                    <Typograph size={fontSize.s18} style={{ marginBottom: spacing.s12 - 8 }}>Endereço</Typograph>
+                    {ADDRESS_TEXT.map(item => <Typograph>{item["text"]}</Typograph>)}
                 </Box>
             </Content>
         </ScrollView>

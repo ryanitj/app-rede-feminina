@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth } from '../config/firebase';
+import { getUser } from '../services/users';
+import { UserDataContext } from './user';
 
 const AuthContext = createContext({
     logged: false,
@@ -8,6 +10,7 @@ const AuthContext = createContext({
 });
 
 const AuthProvider = ({ children }) => {
+    const userContext = useContext(UserDataContext)
     const [isAdmin, setIsAdmin] = useState(false);
     const [logged, setLogged] = useState(false);
 
@@ -20,10 +23,12 @@ const AuthProvider = ({ children }) => {
     async function onAuthStateChanged(user) {
         if (!user) {
             setLogged(false)
-            setIsGym(false)
             return;
         }
-
+        let userData = await getUser({ uid: user.uid })
+        userContext.setUserData(userData.data)
+     
+        setIsAdmin(userData.data["admin"] == 1)
         setLogged(true)
     }
 

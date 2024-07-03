@@ -4,18 +4,19 @@ import { Container } from "../components/Container"
 import { Typograph } from "../components/Typograph"
 import { Row } from "../components/Row"
 import { colors } from "../constants/colors"
-import { Input } from "../components/Input"
+import { INPUT_VARIANTS, Input } from "../components/Input"
 import { spacing } from '../constants/spacing'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '../components/Button'
 import { fontSize } from '../constants/fontSize'
-import { AuthService, register } from '../services/auth'
+import { AuthService } from '../services/auth'
 import { useLoading } from '../context/loading'
 import { useToast } from '../context/toast'
 import { Controller, useForm } from 'react-hook-form'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
+import { createUser } from '../services/users'
 
 export const Register = () => {
     const navigation = useNavigation()
@@ -38,8 +39,19 @@ export const Register = () => {
         toggle()
         try {
             const response = await AuthService.register(data["email"], data["password"]);
-   
-            if (!response["success"]) {
+
+            delete data["password"]
+            delete data["confirmPassword"]
+
+            const payload = {
+                ...data, 
+                uid: response.user.uid, 
+                admin:0
+            }
+
+            await createUser(payload)
+
+            if (!response.user.uid) {
                 showErrorToast()
                 return;
             }
@@ -75,6 +87,7 @@ export const Register = () => {
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <Input
+                            variant={INPUT_VARIANTS.circled}
                             onChangeText={onChange}
                             onBlur={onBlur}
                             value={value}
@@ -91,6 +104,7 @@ export const Register = () => {
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <Input
+                        variant={INPUT_VARIANTS.circled}
                             onChangeText={onChange}
                             onBlur={onBlur}
                             value={value}
@@ -108,6 +122,7 @@ export const Register = () => {
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <Input
+                        variant={INPUT_VARIANTS.circled}
                             onChangeText={onChange}
                             onBlur={onBlur}
                             value={value}

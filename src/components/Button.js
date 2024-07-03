@@ -8,15 +8,24 @@ export const Button = ({
     onPress,
     width = "100%",
     alignSelf,
-    backgroundColor
+    backgroundColor,
+    disabled
 }) => {
+
+    const onTap = () => {
+        if(disabled){
+            return;
+        }
+        return onPress()
+    }
+
     return (
         <TouchableOpacity
-            onPress={onPress}
+            onPress={onTap}
             style={{
                 paddingHorizontal: spacing.s24,
                 paddingVertical: spacing.s12,
-                backgroundColor: backgroundColor || colors.primary,
+                backgroundColor: disabled ? colors["gray"] : backgroundColor || colors.primary,
                 borderRadius: 999,
                 width: width,
                 alignSelf: alignSelf

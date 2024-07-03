@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "387283554184",
+    "project_id": "app-rede-feminina",
+    "storage_bucket": "app-rede-feminina.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387283554184:android:32e3f5e9f95c5e3c68b43d",
+        "android_client_info": {
+          "package_name": "com.redefeminina"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGOL8ltUKr7va7U29lIHKKVQwvZegDYok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

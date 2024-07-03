@@ -7,12 +7,14 @@ export const Typograph = ({
     size = fontSize.s16,
     weight,
     style,
+    center
 }) => {
     return (
         <Text style={{
             color,
             fontSize: size,
             fontWeight:weight,
+            textAlign: center && "center",
             ...style
         }}>
             {children}

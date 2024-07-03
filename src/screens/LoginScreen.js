@@ -13,7 +13,6 @@ import { fontSize } from '../constants/fontSize'
 import { Controller, useForm } from 'react-hook-form'
 import { useToast } from '../context/toast'
 import { useLoading } from '../context/loading'
-import { AuthService, login } from '../services/auth'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { LOGIN_USE_CASES, loginUseCase } from '../useCases/auth/login'
@@ -43,7 +42,7 @@ export const Login = () => {
         try {
             const action = loginUseCase(LOGIN_USE_CASES.login, data)
             const response = await action()
-       
+
             if (!response["success"]) {
                 showErrorToast()
                 return;

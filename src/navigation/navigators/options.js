@@ -13,6 +13,8 @@ export const authTabScreenOptions = ({ route }) => ({
             return <Entypo name="shopping-cart" size={24} color={color} />
         } else if (route["name"] == "Sobre") {
             return <AntDesign name="infocirlce" size={24} color={color} />
+        } else if (route["name"] == "Notificações") {
+            return <Entypo name="message" size={24} color={color} />
         }
     },
     tabBarActiveTintColor: colors["blue"], // Change active tab color

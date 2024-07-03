@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 // Context for user data and related functions
 const UserDataContext = createContext({
@@ -36,5 +36,13 @@ const UserDataProvider = ({ children }) => {
         <UserDataContext.Provider value={value}>{children}</UserDataContext.Provider >
     );
 };
+
+export const useUser = () => {
+    const context = useContext(UserDataContext)
+
+    return {
+        ...context
+    }
+}
 
 export { UserDataContext, UserDataProvider };
